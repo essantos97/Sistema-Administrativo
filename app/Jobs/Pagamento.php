@@ -33,7 +33,9 @@ class Pagamento implements ShouldQueue
 
     /**
      * Execute the job.
-     *
+     *  Aqui temos a transação no banco de dados para saque e a chamada para o job de
+     * envio do email para o administrador, cria a mensagem com sucesso ou falha na 
+     * transação.
      * @return void
      */
     public function handle()

@@ -14,13 +14,28 @@ class EmpresaController extends Controller
         $this->empresa = $empresa;
     }
 
+    /**
+     * Método responsável por realizar uma venda e adicionar esse valor ao saldo da empresa,
+     *  e verificar se os dados da request são válidos para a operação.
+     * 
+     * @param  Illuminate\Http\Request;  $request
+     * @return \Illuminate\View\View
+     */
+
     public function vender(Request $request){
-        
-        //Empresa::where('cnpj_empresa', '=', auth()->user()->cnpj)->increment('saldo', $request->valor);
-             
+                   
+        $request->validate([            
+            'valor' => 'required',            
+        ]);
         Empresa::where('cnpj', '=', Auth::guard('empresa')->user()->cnpj)->increment('saldo_empresa', $request->valor);//temporário
         return view('empresa.dashboard');
     } 
+    /**
+     * Método responsável por adicionar uma administrador, faz apenas o redirecionamento
+     * para a página de registro.
+     * @param  
+     * @return 
+     */
     public function adicionarAdmin(){
         return redirect()->route('register');
     }

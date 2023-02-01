@@ -24,6 +24,11 @@ class User extends Authenticatable
         'name', 'surname', 'cpf', 'email','password','cnpj_empresa', 'permissao',
     ];
 
+    /**
+     * Criação da relação entre empresa e usuário.
+     *
+     * @var array
+     */
     public function empresa(){
         return $this->belongsTo('App\Models\Empresa');
     }

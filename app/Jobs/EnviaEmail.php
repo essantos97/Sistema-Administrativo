@@ -29,7 +29,8 @@ class EnviaEmail implements ShouldQueue
     }
     /**
      * Execute the job.
-     *
+     * Aqui é feito a parte de envio de email para o administrador.
+     * Recebe o array com as informações da transação e faz o envio. 
      * @return void
      */
     public function handle()

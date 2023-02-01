@@ -23,6 +23,11 @@ class Empresa extends Authenticatable
         'cnpj', 'email', 'cpf_admin','saldo_empresa','razao','nomeFantasia', 'telefone', 'permissao', 'password',
     ];
    
+    /**
+     * Criação da relação entre empresa e usuário(admin).
+     *
+     * @var array
+     */
     public function admin(){
         return $this->hasOne('App\Models\User');
     }
