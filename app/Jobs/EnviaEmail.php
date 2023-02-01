@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
+use stdClass;
 
 class EnviaEmail implements ShouldQueue
 {
@@ -32,7 +33,15 @@ class EnviaEmail implements ShouldQueue
      * @return void
      */
     public function handle()
-    {             
-        new NotificaPagamento($this->request);
+    {     
+        
+        $dados = new stdClass();
+        $dados->info = $this->request['info'];
+        
+        Mail::send('email.modelo', ['user' => $dados], function ($message) {
+            $message->subject('Notificação Sobre o Pagamento');        
+            $message->to($this->request['email'], $this->request['name']);
+        });
+             
     }
 }
