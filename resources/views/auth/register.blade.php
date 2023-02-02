@@ -7,7 +7,7 @@
         </x-slot>
 
         <!-- Validation Errors -->
-        <!-- <x-auth-validation-errors class="mb-4" :errors="$errors" /> -->
+        <x-auth-validation-errors class="mb-4" :errors="$errors" />
         
 
         <form method="POST" action="{{ route('register') }}">
@@ -38,14 +38,14 @@
             <div class="mt-4">
                 <x-label for="email" :value="__('Email')" />
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" autocomplete="new-email"/>
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" autofocus/>
             </div>
 
             <!-- Confirm Email Address -->
             <div class="mt-4">
                 <x-label for="email_confirmation" :value="__('Confirmar Email')" />
 
-                <x-input id="email_confirmation" class="block mt-1 w-full" type="email" name="email_confirmation" required />
+                <x-input id="email_confirmation" class="block mt-1 w-full" type="email" name="email_confirmation" autofocus />
             </div>
 
             <!-- Password -->
@@ -64,7 +64,7 @@
 
                 <x-input id="password_confirmation" class="block mt-1 w-full"
                                 type="password"
-                                name="password_confirmation" required />
+                                name="password_confirmation" />
             </div>
 
             <div class="flex items-center justify-end mt-4">                
@@ -72,15 +72,6 @@
                     {{ __('Registrar') }}
                 </x-button>
             </div>
-        </form>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        </form>       
     </x-auth-card>
 </x-guest-layout>

@@ -35,9 +35,9 @@ class UsuarioRequest extends FormRequest
     public function messages()
     {
         return[
-            'name'=>'O nome é obrigatório.',
+            'name.required'=>'O nome é obrigatório.',
 
-            'surname'=>'O sobrenome é obrigatório',
+            'surname.required'=>'O sobrenome é obrigatório',
 
             'cpf.size' => 'O cpf requer 11 números, digite apenas os números.',
             'cpf.unique' => 'Este cpf já está cadastrado no nosso sistema.',
