@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AuthEmpresa;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EmpresaRequest;
 use App\Models\User;
 use App\Models\Empresa;
 use App\Providers\RouteServiceProvider;
@@ -31,36 +32,8 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'cnpj' => 'required|string|size:14|unique:empresas',
-            'razao' => 'required|string|max:255',
-            'nomeFantasia' => 'required|string|max:255',
-            'telefone' => 'required|string|min:10|max:11',            
-            'email' => 'required|string|email|max:255|unique:empresas',
-            'password' => 'required|string|confirmed|min:6',
-        ],[
-            'cnpj.required'=>'CNPJ é obrigatório.',
-            'cnpj.unique'=>'Este CNPJ já está cadastrado no nosso sistema.',
-            'cnpj.size'=>'O CNPJ é composto por 14 números.',
-
-            'razao.required'=>'É necessário informar a razão social.',
-
-            'nomeFantasia.required'=>'O nome fantasia é obrigatório',
-
-            'telefone.required'=>'O telefone é obrigatório.',
-            'telefone.max'=>'O telefone está com digitos demais.',
-            'telefone.min'=>'Digite um telefone válido com ddd.',
-
-            'email.required'=>'O email é obrigatório, digite o email',
-            'email.email'=>'Digite o email no formato correto.',
-            'email.unique'=>'Esse email já está cadastrado no sistema.',
-            
-            'password.required'=>'A senha é obrigatória',
-            'password.confirmed'=>'As senhas estão diferentes',
-            'password.min'=>'É necessário ter pelo menos 6 caracteres.',
-        ]);
+    public function store(EmpresaRequest $request)
+    {        
 
         if (null==User::where('email', '=', $request->email)->first()) {
             $user = Empresa::create([            

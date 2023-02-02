@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CriarContaRequest;
 use App\Jobs\Pagamento;
 use App\Models\Conta;
 use App\Models\Empresa;
@@ -78,17 +79,8 @@ class AdminController extends Controller
      * @param  Illuminate\Http\Request;  $request
      * @return App\Providers\RouteServiceProvider
      */
-    public function adicionarConta(Request $request){
-        $request->validate([
-          'num_conta'=>'required|integer|max:999999999999999',
-          'proprietario'=>'required|string:255',                
-        ],[
-            'num_conta.required'=>'O número da conta é obrigatório',            
-            'num_conta.integer'=>'O número da conta é totalmente numérico.',
-            'num_conta.max'=>'O número da conta deve ter no máximo 15 numeros.',
-
-            'proprietario.required'=>'O nome do proprietário da conta é obrigatório',             
-        ]);
+    public function adicionarConta(CriarContaRequest $request){
+        
         Conta::create([
           'num_conta'=> $request->num_conta,
           'proprietario'=> $request->proprietario,

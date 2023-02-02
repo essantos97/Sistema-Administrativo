@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UsuarioRequest;
 use App\Models\Empresa;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -31,32 +32,8 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
-            'cpf' => 'required|string|size:11|unique:users', 
-            'email' => 'required|string|email|confirmed|max:255|unique:users',
-            'password' => 'required|string|confirmed|min:6',
-        ],
-        ['name'=>'O nome é obrigatório.',
-
-        'surname'=>'O sobrenome é obrigatório',
-
-        'cpf.size' => 'O cpf requer 11 números, digite apenas os números.',
-        'cpf.unique' => 'Este cpf já está cadastrado no nosso sistema.',
-        'cpf.required' => 'O CPF é obrigatório para cadastro.',
-
-        'password.size' => 'A senha deverá ter no mínimo 6 caracteres.',
-        'password.required' => 'A senha é obrigatória, digite a senha.',
-        'password.confirmed' => 'As senhas diferem, digite senhas iguais.',
-
-        'email.unique' => 'Este email já está sendo usado no nosso sistema.',
-        'email.required' => 'O email é necessário para cadastro.',
-        'email.confirmed' => 'Os emails diferem, digite emails iguais.',
-        ]);
-        
+    public function store(UsuarioRequest $request)
+    {            
         // verificação para confirmar se existe email igual no sistema
        if (null==Empresa::where('email', '=', $request->email)->first()) {
             $user = User::create([            
