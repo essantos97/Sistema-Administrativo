@@ -10,7 +10,7 @@
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <!-- Validation Errors -->
-        <!-- <x-auth-validation-errors class="mb-4" :errors="$errors" /> -->
+        <x-auth-validation-errors class="mb-4" :errors="$errors" />
         
         
         <h2 class="text-4x1 front-bold text-center">Login Administrador</h2>
@@ -53,15 +53,6 @@
                     {{ __('Log in') }}
                 </x-button>
             </div>
-        </form>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        </form>       
     </x-auth-card>
 </x-guest-layout>

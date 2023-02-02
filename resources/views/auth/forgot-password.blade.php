@@ -32,15 +32,6 @@
                     {{ __('Email Password Reset Link') }}
                 </x-button>
             </div>
-        </form>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        </form>       
     </x-auth-card>
 </x-guest-layout>
