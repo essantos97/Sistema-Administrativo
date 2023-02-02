@@ -19,7 +19,9 @@ class Empresa extends Authenticatable
     protected $primaryKey = 'cnpj';
     protected $guard = 'empresa';
     protected $table = 'empresas';
+    public $incrementing = false;
     protected $fillable = [
+        
         'cnpj', 'email', 'cpf_admin','saldo_empresa','razao','nomeFantasia', 'telefone', 'permissao', 'password',
     ];
    
@@ -28,7 +30,7 @@ class Empresa extends Authenticatable
      *
      * @var array
      */
-    public function admin(){
+    public function user(){
         return $this->hasOne('App\Models\User');
     }
      /**

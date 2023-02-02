@@ -19,6 +19,7 @@ class User extends Authenticatable
     protected $primaryKey = 'cpf';
     protected $guard = 'web';
     protected $table = 'users';
+    public $incrementing = false;
     
     protected $fillable = [
         'name', 'surname', 'cpf', 'email','password','cnpj_empresa', 'permissao',

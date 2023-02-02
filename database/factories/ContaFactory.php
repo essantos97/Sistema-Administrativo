@@ -19,12 +19,16 @@ class ContaFactory extends Factory
      *
      * @return array
      */
+    public function withFaker()
+    {
+        return \Faker\Factory::create('pt_BR');
+    }
     public function definition()
     {
         return [
-            'num_conta'=> $this->faker->rand(1, 9999999999),
-            'proprietario'=> $this->faker->name(),
-            'verificada'=> $this->faker->rand(false, true),
+            'num_conta'=> $this->faker->unique()->rg(false),
+            'proprietario'=> $this->faker->name,
+            'verificada'=> $this->faker->boolean(),
             'saldo'=>0,
         ];
     }
