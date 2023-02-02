@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CriarContaRequest;
+use App\Http\Requests\SaqueRequest;
 use App\Jobs\Pagamento;
 use App\Models\Conta;
 use App\Models\Empresa;
@@ -28,20 +29,8 @@ class AdminController extends Controller
      * @return App\Providers\RouteServiceProvider
      * @return \Illuminate\View\View
      */
-    public function saque(Request $request){        
-        
-        $request->validate([
-            'num_conta' => 'required|integer|max:999999999999999',
-            'valor' => 'required|integer',            
-        ],[
-            'num_conta.required'=>'O número da conta é obrigatório.',
-            'num_conta.integer'=>'O número da conta é totalmente numérico.',
-            'num_conta.max'=>'O número da conta deve ter no máximo 15 numeros.',  
-
-            'valor.required'=>'O valor do saque é obrigatório.',
-            'valor.integer'=>'O valor deve ser numérico.',                     
-        ]);
-        
+    public function saque(SaqueRequest $request){        
+                
         //Verificações mínimas para o saque: se é admin, se possui saldo e se a conta é verificada.
 
         if('admin' == Auth::guard('web')->user()->permissao){
@@ -73,8 +62,8 @@ class AdminController extends Controller
     }
 
     /**
-     * Método responsável por adicionar uma nova conta ao sistema e verificar se os dados 
-     * da request são válidos para a operação.
+     * Método responsável por adicionar uma nova conta ao sistema, recebe uma requisição já validada
+     *  e cria uma nova conta.
      * 
      * @param  Illuminate\Http\Request;  $request
      * @return App\Providers\RouteServiceProvider
