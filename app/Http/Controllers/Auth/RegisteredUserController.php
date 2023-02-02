@@ -37,22 +37,27 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
             'cpf' => 'required|string|size:11|unique:users', 
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|confirmed|min:8',
+            'email' => 'required|string|email|confirmed|max:255|unique:users',
+            'password' => 'required|string|confirmed|min:6',
         ],
-        ['name'=>'O nome é obrigatório',
+        ['name'=>'O nome é obrigatório.',
 
         'surname'=>'O sobrenome é obrigatório',
 
-        'cpf.size' => 'O cpf requer 11 números, digite apenas os números',
-        'cpf.unique' => 'Este cpf já está cadastrado no nosso sistema',
-        'cpf.required' => 'O CPF é obrigatório para cadastro',
+        'cpf.size' => 'O cpf requer 11 números, digite apenas os números.',
+        'cpf.unique' => 'Este cpf já está cadastrado no nosso sistema.',
+        'cpf.required' => 'O CPF é obrigatório para cadastro.',
 
-        'password.size' => 'A senha deverá ter no mínimo 8 caracteres',
+        'password.size' => 'A senha deverá ter no mínimo 6 caracteres.',
+        'password.required' => 'A senha é obrigatória, digite a senha.',
+        'password.confirmed' => 'As senhas diferem, digite senhas iguais.',
 
-        'email.unique' => 'Este email já está sendo usado no nosso sistema',
-        'email.required' => 'O email é necessário para cadastro',]);
-
+        'email.unique' => 'Este email já está sendo usado no nosso sistema.',
+        'email.required' => 'O email é necessário para cadastro.',
+        'email.confirmed' => 'Os emails diferem, digite emails iguais.',
+        ]);
+        
+        // verificação para confirmar se existe email igual no sistema
        if (null==Empresa::where('email', '=', $request->email)->first()) {
             $user = User::create([            
                 'name' => $request->name,
@@ -64,9 +69,11 @@ class RegisteredUserController extends Controller
                 'permissao' => 'admin',
             ]);
             Empresa::where('cnpj', '=', Auth::guard('empresa')->user()->cnpj)->update(['cpf_admin' => $request->cpf]);
-        }
-        
 
-        return redirect(RouteServiceProvider::EMPRESA_HOME);
+            return redirect(RouteServiceProvider::EMPRESA_HOME);
+        }
+
+        return back()->withInput();
+        
     }
 }

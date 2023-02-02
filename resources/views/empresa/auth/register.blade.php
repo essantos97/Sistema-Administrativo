@@ -16,42 +16,42 @@
              <div>
                 <x-label for="cnpj" :value="__('CNPJ')" />
 
-                <x-input id="cnpj" class="block mt-1 w-full" type="text" name="cnpj" :value="old('cnpj')" required autofocus />
+                <x-input id="cnpj" class="block mt-1 w-full" type="text" name="cnpj" :value="old('cnpj')"  autofocus />
             </div>
 
             <!-- Razão social -->
             <div>
                 <x-label for="razao" :value="__('Razão Social')" />
 
-                <x-input id="razao" class="block mt-1 w-full" type="text" name="razao" :value="old('razao')" required autofocus />
+                <x-input id="razao" class="block mt-1 w-full" type="text" name="razao" :value="old('razao')"  autofocus />
             </div>            
 
             <!-- Nome Fantasia -->
             <div>
                 <x-label for="nomeFantasia" :value="__('Nome Fantasia')" />
 
-                <x-input id="nomeFantasia" class="block mt-1 w-full" type="text" name="nomeFantasia" :value="old('nomeFantasia')" required autofocus />
+                <x-input id="nomeFantasia" class="block mt-1 w-full" type="text" name="nomeFantasia" :value="old('nomeFantasia')"  autofocus />
             </div>
 
             <!-- CPF -->
             <div>
                 <x-label for="telefone" :value="__('Telefone')" />
 
-                <x-input id="telefone" class="block mt-1 w-full" type="text" name="telefone" :value="old('telefone')" required autofocus />
+                <x-input id="telefone" class="block mt-1 w-full" type="tel" pattern="^\d{(2)}-\d{5}-\d{4}$" name="telefone" :value="old('telefone')"  autofocus />
             </div>
 
             <!-- Email Address -->
             <div class="mt-4">
                 <x-label for="email" :value="__('Email')" />
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="new-email"/>
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"  autofocus="new-email"/>
             </div>
 
             <!-- Confirm Email Address -->
             <div class="mt-4">
                 <x-label for="email_confirmation" :value="__('Confirmar Email')" />
 
-                <x-input id="email_confirmation" class="block mt-1 w-full" type="email" name="email_confirmation" required />
+                <x-input id="email_confirmation" class="block mt-1 w-full" type="email" name="email_confirmation"  autofocus/>
             </div>
 
             <!-- Password -->
@@ -61,7 +61,7 @@
                 <x-input id="password" class="block mt-1 w-full"
                                 type="password"
                                 name="password"
-                                required autocomplete="new-password" />
+                                 autocomplete="new-password" />
             </div>
 
             <!-- Confirm Password -->
@@ -70,7 +70,7 @@
 
                 <x-input id="password_confirmation" class="block mt-1 w-full"
                                 type="password"
-                                name="password_confirmation" required />
+                                name="password_confirmation"  />
             </div>
 
             <div class="flex items-center justify-end mt-4">

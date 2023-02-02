@@ -10,7 +10,6 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use function GuzzleHttp\Promise\all;
 
 class AdminController extends Controller
 {
@@ -31,8 +30,15 @@ class AdminController extends Controller
     public function saque(Request $request){        
         
         $request->validate([
-            'num_conta' => 'required|max:15',
-            'valor' => 'required',            
+            'num_conta' => 'required|integer|max:999999999999999',
+            'valor' => 'required|integer',            
+        ],[
+            'num_conta.required'=>'O número da conta é obrigatório.',
+            'num_conta.integer'=>'O número da conta é totalmente numérico.',
+            'num_conta.max'=>'O número da conta deve ter no máximo 15 numeros.',  
+
+            'valor.required'=>'O valor do saque é obrigatório.',
+            'valor.integer'=>'O valor deve ser numérico.',                     
         ]);
         
         //Verificações mínimas para o saque: se é admin, se possui saldo e se a conta é verificada.
@@ -61,6 +67,7 @@ class AdminController extends Controller
         }else{
             return view('dashboard', '[Só admin pode solicitar saque]');
         }
+        return back()->withInput();
         
     }
 
@@ -73,8 +80,14 @@ class AdminController extends Controller
      */
     public function adicionarConta(Request $request){
         $request->validate([
-          'num_conta'=>'required|max:15',
+          'num_conta'=>'required|integer|max:999999999999999',
           'proprietario'=>'required|string:255',                
+        ],[
+            'num_conta.required'=>'O número da conta é obrigatório',            
+            'num_conta.integer'=>'O número da conta é totalmente numérico.',
+            'num_conta.max'=>'O número da conta deve ter no máximo 15 numeros.',
+
+            'proprietario.required'=>'O nome do proprietário da conta é obrigatório',             
         ]);
         Conta::create([
           'num_conta'=> $request->num_conta,
@@ -94,10 +107,17 @@ class AdminController extends Controller
      * @return App\Providers\RouteServiceProvider
      */
     public function verificarConta(Request $request){
-        $request->validate([
-            'num_conta'=>'required|max:15',                         
-        ]);
-        Conta::where('num_conta', '=', $request->num_conta)->first()->update(['verificada' => true]);
+        
+            $request->validate([
+                'num_conta'=>'required|integer|max:999999999999999',                         
+            ],[
+                'num_conta.required'=>'O número da conta é obrigatório',            
+                'num_conta.integer'=>'O número da conta é totalmente numérico.',
+                'num_conta.max'=>'O número da conta deve ter no máximo 15 numeros.',                      
+            ]);        
+        
+            Conta::where('num_conta', '=', $request->num_conta)->first()->update(['verificada' => true]);
+                
         return redirect(RouteServiceProvider::HOME);  
     }
 

@@ -14,7 +14,7 @@
             <h1 class="center">Número da Conta</h1>
             <!-- Name -->
             <div>                
-                <x-input id="num_conta" class="block mt-1 w-full" type="number"  min="1" name="num_conta" :value="old('num_conta')" required autofocus />
+                <x-input id="num_conta" class="block mt-1 w-full" type="number"  min="1" name="num_conta" :value="old('num_conta')" autofocus />
             </div>
                       
             <div class="flex items-center justify-end mt-4">

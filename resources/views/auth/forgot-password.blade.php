@@ -14,6 +14,7 @@
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <!-- Validation Errors -->
+        
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
         <form method="POST" action="{{ route('password.email') }}">
@@ -32,5 +33,14 @@
                 </x-button>
             </div>
         </form>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </x-auth-card>
 </x-guest-layout>

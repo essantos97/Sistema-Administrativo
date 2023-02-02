@@ -25,7 +25,10 @@ class EmpresaController extends Controller
     public function vender(Request $request){
                    
         $request->validate([            
-            'valor' => 'required',            
+            'valor' => 'required|numeric',            
+        ],[
+            'valor.required'=>'O valor é obrigatório',
+            'valor.numeric'=>'O valor deve ser totalmente numérico',
         ]);
         Empresa::where('cnpj', '=', Auth::guard('empresa')->user()->cnpj)->increment('saldo_empresa', $request->valor);//temporário
         return view('empresa.dashboard');

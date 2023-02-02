@@ -10,7 +10,9 @@
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+        <!-- <x-auth-validation-errors class="mb-4" :errors="$errors" /> -->
+        
+        
         <h2 class="text-4x1 front-bold text-center">Login Administrador</h2>
         <form method="POST" action="{{ route('login') }}">
             @csrf
@@ -19,7 +21,7 @@
             <div>
                 <x-label for="email" :value="__('Email')" />
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" autofocus />
             </div>
 
             <!-- Password -->
@@ -29,7 +31,7 @@
                 <x-input id="password" class="block mt-1 w-full"
                                 type="password"
                                 name="password"
-                                required autocomplete="current-password" />
+                                autocomplete="current-password" />
             </div>
 
             <!-- Remember Me -->
@@ -53,13 +55,13 @@
             </div>
         </form>
         @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-@endif
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </x-auth-card>
 </x-guest-layout>
