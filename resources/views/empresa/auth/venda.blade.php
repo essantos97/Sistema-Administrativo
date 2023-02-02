@@ -18,7 +18,7 @@
             <!-- Name -->
             <div>                
 
-                <x-input id="valor" class="block mt-1 w-full" type="number"  min="1" step="0.01" name="valor" :value="old('valor')" required autofocus />
+                <x-input id="valor" class="block mt-1 w-full" type="number"  min="1" step="0.01" name="valor" :value="old('valor')" autofocus />
             </div>
             
             <div class="flex items-center justify-end mt-4">

@@ -20,12 +20,13 @@ class AdminController extends Controller
     {
         $this->usuario = $usuario;
     }
+
    /**
      * Método responsável por verificar se os dados mínimos e obrigatórios para o saque(pagamento)
      * estão corretos e fazer as verificações necessárias para criar o job de saque que fará a 
      * transação no sistema.
      *
-     * @param  Illuminate\Http\Request;  $request
+     * @param  Illuminate\Http\SaqueRequest;  $request
      * @return App\Providers\RouteServiceProvider
      * @return \Illuminate\View\View
      */
@@ -65,7 +66,7 @@ class AdminController extends Controller
      * Método responsável por adicionar uma nova conta ao sistema, recebe uma requisição já validada
      *  e cria uma nova conta.
      * 
-     * @param  Illuminate\Http\Request;  $request
+     * @param  Illuminate\Http\CriarContaRequest;  $request
      * @return App\Providers\RouteServiceProvider
      */
     public function adicionarConta(CriarContaRequest $request){

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empresa;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,8 +32,9 @@ class EmpresaController extends Controller
             'valor.numeric'=>'O valor deve ser totalmente numérico',
         ]);
         Empresa::where('cnpj', '=', Auth::guard('empresa')->user()->cnpj)->increment('saldo_empresa', $request->valor);//temporário
-        return view('empresa.dashboard');
+        return redirect(RouteServiceProvider::EMPRESA_HOME); 
     } 
+
     /**
      * Método responsável por adicionar uma administrador, faz apenas o redirecionamento
      * para a página de registro.
