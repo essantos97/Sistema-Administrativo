@@ -7,6 +7,7 @@ use App\Http\Requests\EmpresaRequest;
 use App\Models\User;
 use App\Models\Empresa;
 use App\Providers\RouteServiceProvider;
+use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,26 +35,29 @@ class RegisteredUserController extends Controller
      */
     public function store(EmpresaRequest $request)
     {        
-
-        if (null==User::where('email', '=', $request->email)->first()) {
-            $user = Empresa::create([            
-                'cnpj' => $request->cnpj,
-                'cpf_admin' => null,
-                'saldo_empresa' => 0,
-                'razao' => $request->razao,
-                'nomeFantasia' => $request->nomeFantasia,
-                'telefone' => $request->telefone,
-                'email' => $request->email,
-                'permissao' => 'usuario',
-                'password' => Hash::make($request->password),
-            ]);
-    
-            event(new Registered($user));
-    
-            Auth::guard('empresa')->login($user);
-            return redirect(RouteServiceProvider::EMPRESA_HOME);
-        }
+        try{
+            if (null == User::where('email', '=', $request->email)->first()) {
+                $user = Empresa::create([            
+                    'cnpj' => $request->cnpj,
+                    'cpf_admin' => null,
+                    'saldo_empresa' => 0,
+                    'razao' => $request->razao,
+                    'nomeFantasia' => $request->nomeFantasia,
+                    'telefone' => $request->telefone,
+                    'email' => $request->email,
+                    'permissao' => 'usuario',
+                    'password' => Hash::make($request->password),
+                ]);
+                
+                event(new Registered($user));
         
-        return back()->withInput();
+                Auth::guard('empresa')->login($user);
+                return redirect(RouteServiceProvider::EMPRESA_HOME);
+            }else{
+                throw new Exception("Este email já está cadastrado no sistema, e é usado por um administrador", 1);
+            }
+        } catch (Exception $e) {                                                                                                                    
+            return back()->with('msg', $e->getMessage());
+        }     
     }
 }

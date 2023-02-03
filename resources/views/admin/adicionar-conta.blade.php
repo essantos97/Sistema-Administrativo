@@ -9,6 +9,14 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
+        @if (session('msg'))    
+             <div class="font-medium text-red-600">
+                 {{ __('Opa! algo deu errado.') }}
+            </div>                                       
+            <ul class="mt-3 list-disc list-inside text-sm text-red-600">                                    
+                <li>{{session('msg')}}</li>                    
+            </ul>                               
+        @endif  
         <form method="POST" action="{{ route('admin.adicionar.conta') }}">
             @csrf
             <h1 class="center">Número da Conta</h1>

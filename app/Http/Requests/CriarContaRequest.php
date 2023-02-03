@@ -25,7 +25,7 @@ class CriarContaRequest extends FormRequest
     {
         return [
            
-            'num_conta'=>'required|integer|max:999999999999999',
+            'num_conta'=>'required|integer|unique:contas|max:999999999999999',
             'proprietario'=>'required|string:255',                
              
         ];
@@ -34,7 +34,8 @@ class CriarContaRequest extends FormRequest
     {
         return [
 
-            'num_conta.required'=>'O número da conta é obrigatório',            
+            'num_conta.required'=>'O número da conta é obrigatório.',  
+            'num_conta.unique'=>'Esta conta já está no sistema.',          
             'num_conta.integer'=>'O número da conta é totalmente numérico.',
             'num_conta.max'=>'O número da conta deve ter no máximo 15 numeros.',
 

@@ -11,6 +11,14 @@
 
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
+        @if (session('msg'))    
+             <div class="font-medium text-red-600">
+                 {{ __('Opa! algo deu errado.') }}
+            </div>                                       
+            <ul class="mt-3 list-disc list-inside text-sm text-red-600">                                    
+                <li>{{session('msg')}}</li>                    
+            </ul>                               
+        @endif  
         <h2 class="text-4x1 front-bold text-center">Empresa Login</h2>
         <form method="POST" action="{{ route('empresa.login') }}">
             @csrf
@@ -19,7 +27,7 @@
             <div>
                 <x-label for="email" :value="__('Email')" />
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" autofocus />
             </div>
 
             <!-- Password -->
@@ -29,7 +37,7 @@
                 <x-input id="password" class="block mt-1 w-full"
                                 type="password"
                                 name="password"
-                                required autocomplete="current-password" />
+                                autocomplete="current-password" />
             </div>
 
             <!-- Remember Me -->
