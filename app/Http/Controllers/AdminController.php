@@ -22,6 +22,12 @@ class AdminController extends Controller
         $this->usuario = $usuario;
     }
 
+    public function index(){
+                       
+        $empresas  = Empresa::where('cpf_admin','=', Auth::guard('web')->user()->cpf)->first();                       
+        return view('dashboard', compact('empresas'));
+    }
+
    /**
      * Método responsável por verificar se os dados mínimos e obrigatórios para o saque(pagamento)
      * estão corretos e fazer as verificações necessárias para criar o job de saque que fará a 

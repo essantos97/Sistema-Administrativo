@@ -20,9 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', [AdminController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 
@@ -51,8 +49,6 @@ Route::get('/empresa/venda', function(){
 Route::post('/empresa/venda', [EmpresaController::class, 'vender'])->middleware('auth:empresa')->name('empresa.venda');
 
 
-Route::get('/empresa/dashboard', function () {
-    return view('empresa.dashboard');
-})->middleware(['auth:empresa'])->name('empresa.dashboard');
+Route::get('/empresa/dashboard', [EmpresaController::class, 'index'])->middleware(['auth:empresa'])->name('empresa.dashboard');
 
 require __DIR__.'/authempresa.php';

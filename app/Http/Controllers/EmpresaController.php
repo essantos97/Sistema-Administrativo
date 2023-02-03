@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empresa;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,12 @@ class EmpresaController extends Controller
     public function __construct(Empresa $empresa)
     {
         $this->empresa = $empresa;
+    }
+
+    public function index(){
+                       
+        $admin  = User::where('cpf','=', Auth::guard('empresa')->user()->cpf_admin)->first();                       
+        return view('empresa.dashboard', compact('admin'));
     }
 
     /**
