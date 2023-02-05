@@ -8,20 +8,12 @@ use Tests\TestCase;
 
 class AdminTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
+    
     public function test_janela_login_pode_ser_renderizada()
     {
-        # code...
+        $response = $this->get('/login');
+
+        $response->assertStatus(200);
     }
     public function test_redireciona_login_usuario_nao_autenticado()
     {

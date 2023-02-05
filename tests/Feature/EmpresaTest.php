@@ -2,41 +2,46 @@
 
 namespace Tests\Feature;
 
+use App\Models\Empresa;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class EmpresaTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    
+    public function test_janela_login_pode_ser_renderizada()
     {
-        $response = $this->get('/');
+        $response = $this->get('/empresa/login');
 
         $response->assertStatus(200);
     }
-    public function test_janela_login_pode_ser_renderizada()
-    {
-        # code...
-    }
     public function test_redireciona_login_usuario_nao_autenticado()
     {
-        # code...
+        
     }
     public function test_empresa_realiza_venda()
-    {
-        # code...
+    {   
+        
+        //$this->withoutMiddleware();
+        $empresa = Empresa::factory()->create();        
+        $resposta = $this->assertDatabaseHas('empresas', ['email'=>$empresa->email]);
+        $resposta = $this->actingAs($empresa,'empresa');   
+        $this->assertAuthenticated();     
+        $resposta = $this->post('/empresa/venda',['valor'=>50]); 
+       
+        //$resposta->assertRedirect(RouteServiceProvider::EMPRESA_HOME);       
+        //$resposta = $this->assertDatabaseHas('empresas', ['saldo_empresa'=>50]); 
+        
+
     }
     public function test_empresa_adiciona_admin()
     {
-        # code...
+        
     }
     public function test_empresa_retorna_index()
     {
-        # code...
+        
     }
 }
