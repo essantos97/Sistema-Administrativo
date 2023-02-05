@@ -6,6 +6,7 @@ use App\Models\Empresa;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class EmpresaTest extends TestCase
@@ -19,8 +20,7 @@ class EmpresaTest extends TestCase
         $response->assertStatus(200);
     }
     public function test_redireciona_login_usuario_nao_autenticado()
-    {
-       
+    {       
         $resposta = $this->get('/empresa/venda');
         $resposta->assertRedirect('/');
 
@@ -29,24 +29,23 @@ class EmpresaTest extends TestCase
 
         $resposta = $this->get('/empresa/register/admin');
         $resposta->assertRedirect('/');
-        
-        
+                
     }
     public function test_empresa_realiza_venda()
     {   
         
         //$this->withoutMiddleware();
         $empresa = Empresa::factory()->create();        
-        $resposta = $this->assertDatabaseHas('empresas', ['email'=>$empresa->email]);
-        $resposta = $this->actingAs($empresa,'empresa');   
+        
+        $resposta = $this->actingAs($empresa,'empresa');         
         $this->assertAuthenticated();     
         $resposta = $this->post('/empresa/venda',['valor'=>50]); 
-       
-        //$resposta->assertRedirect(RouteServiceProvider::EMPRESA_HOME);       
-        //$resposta = $this->assertDatabaseHas('empresas', ['saldo_empresa'=>50]); 
+    
+        $this->assertEquals(50, Empresa::where('cnpj', '=', $empresa->cnpj)->first()->saldo_empresa); 
+        $resposta->assertRedirect(RouteServiceProvider::EMPRESA_HOME);       
+        
         $this->refreshDatabase();
         
-
     }
     public function test_empresa_adiciona_admin()
     {
@@ -54,6 +53,12 @@ class EmpresaTest extends TestCase
     }
     public function test_empresa_retorna_index()
     {
+        $empresa = Empresa::factory()->create();        
         
+        $this->actingAs($empresa,'empresa'); 
+        $resposta = $this->call('GET', route('empresa.dashboard'));
+       
+        $resposta->assertViewIs('empresa.dashboard');
+        $this->refreshDatabase();
     }
 }
