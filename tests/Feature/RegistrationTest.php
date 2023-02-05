@@ -15,8 +15,7 @@ class RegistrationTest extends TestCase
     public function test_registration_screen_can_be_rendered()
     {
         $response = $this->get('/register');
-        $response->assertRedirect('/login');
-        $response->assertStatus(302);
+        $response->assertRedirect('/');        
     }
 
     public function test_new_users_can_register()

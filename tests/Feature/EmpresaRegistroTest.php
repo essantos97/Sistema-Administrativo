@@ -8,6 +8,7 @@ use Tests\TestCase;
 
 class EmpresaRegistroTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *

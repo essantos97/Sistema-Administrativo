@@ -2,22 +2,28 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AdminTest extends TestCase
 {
+    use RefreshDatabase;
     
-    public function test_janela_login_pode_ser_renderizada()
-    {
-        $response = $this->get('/login');
-
-        $response->assertStatus(200);
-    }
     public function test_redireciona_login_usuario_nao_autenticado()
     {
-        # code...
+        $resposta = $this->get('/dashboard');
+        $resposta->assertRedirect('/');
+        
+        $resposta = $this->get('/admin/verificar/conta');
+        $resposta->assertRedirect('/');
+
+        $resposta = $this->get('/admin/adicionar/conta');
+        $resposta->assertRedirect('/');
+
+        $resposta = $this->get('/admin/saque');
+        $resposta->assertRedirect('/');
     }
     public function test_admin_adiciona_conta()
     {
@@ -31,4 +37,5 @@ class AdminTest extends TestCase
     {
         # code...
     }
+    
 }

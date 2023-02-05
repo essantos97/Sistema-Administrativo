@@ -10,6 +10,7 @@ use Tests\TestCase;
 
 class EmpresaTest extends TestCase
 {
+    use RefreshDatabase;
     
     public function test_janela_login_pode_ser_renderizada()
     {
@@ -19,6 +20,16 @@ class EmpresaTest extends TestCase
     }
     public function test_redireciona_login_usuario_nao_autenticado()
     {
+       
+        $resposta = $this->get('/empresa/venda');
+        $resposta->assertRedirect('/');
+
+        $resposta = $this->get('/empresa/dashboard');
+        $resposta->assertRedirect('/');
+
+        $resposta = $this->get('/empresa/register/admin');
+        $resposta->assertRedirect('/');
+        
         
     }
     public function test_empresa_realiza_venda()
@@ -33,6 +44,7 @@ class EmpresaTest extends TestCase
        
         //$resposta->assertRedirect(RouteServiceProvider::EMPRESA_HOME);       
         //$resposta = $this->assertDatabaseHas('empresas', ['saldo_empresa'=>50]); 
+        $this->refreshDatabase();
         
 
     }
