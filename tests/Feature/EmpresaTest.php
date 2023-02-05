@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Empresa;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -49,7 +50,11 @@ class EmpresaTest extends TestCase
     }
     public function test_empresa_adiciona_admin()
     {
-        
+        $empresa = Empresa::factory()->create();  
+        $user = User::factory()->create();  
+        $this->actingAs($empresa);
+        $resposta = $this->call('POST', route('register', $user));
+        $this->assertDatabaseHas('users', $user->email);
     }
     public function test_empresa_retorna_index()
     {

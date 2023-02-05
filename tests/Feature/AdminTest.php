@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Http\Controllers\AdminController;
+use App\Models\Conta;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,8 +32,7 @@ class AdminTest extends TestCase
     public function test_admin_adiciona_conta()
     {
         $this->withoutMiddleware('web');
-        
-        Session::start();
+                
         $user = User::factory()->create();
         $this->actingAs($user);  
         $resposta = $this->call('POST', route('admin.adicionar.conta', [
@@ -40,6 +40,7 @@ class AdminTest extends TestCase
             'proprietario' => 'Bruno Magnata'
         ]));
         
+        $this->assertNotNull(Conta::where('num_conta', '=', 18796592)->first());
         $resposta->assertRedirect(RouteServiceProvider::HOME);  
         $this->withoutExceptionHandling();  
     }
