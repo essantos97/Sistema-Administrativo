@@ -50,24 +50,45 @@ class EmpresaTest extends TestCase
         $this->refreshDatabase();
         
     }
-    //mudar a criação da empresa para um vetor, sem usar factory
+    
     public function test_empresa_adiciona_admin()
     {
-        $empresa = Empresa::factory()->create();  
-        $user = User::factory()->create();  
-        $this->actingAs($empresa);
+        $dados = [
+            'cnpj' => '45678901234567',
+            'razao' => 'Bahia ltda',
+            'nomeFantasia' => 'Papelaria Bahia',
+            'cpf_admin' => null,
+            'telefone' => '75988562669',            
+            'email' => 'php@gmail.com',
+            'password' => '12345678', 
+            'password_confirmation' => '12345678',
+        ];   
+        $empresa = Empresa::factory()->state($dados)->make();
+
+        $user = User::factory()->make();  
+        $this->actingAs($empresa,'empresa');
+        $this->post('/register', [
+            'name'=> $user->name,
+            'surname'=> $user->surname,
+            'cpf'=> $user->cpf,
+            'email'=> $user->email,
+            'email_confirmation'=> $user->email,
+            'password'=> '12345678',
+            'password_confirmation'=> '12345678',
+                        
+        ])->assertSessionDoesntHaveErrors();
         $resposta = $this->call('POST', route('register', $user));
         $this->assertNotNull(User::where('cnpj_empresa', '=', $empresa->cnpj)->first());
         $this->refreshDatabase();
     }
 
-    //falta completar a asserção
+    
     public function test_empresa_retorna_index()
     {
         $empresa = Empresa::factory()->create();                
         $this->actingAs($empresa,'empresa'); 
+        $this->assertAuthenticated('empresa');
         $this->get('/empresa/dashboard')->assertSessionDoesntHaveErrors();
-
-         $this->assertAuthenticated('empresa');
+                
     }
 }

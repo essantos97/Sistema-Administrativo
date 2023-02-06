@@ -31,8 +31,31 @@ class EmpresaRegistroTest extends TestCase
         
         $this->post('/empresa/register', $dados)->assertSessionDoesntHaveErrors();
         $empresa = Empresa::where('cnpj', '=', '45678901234567')->first();
-        $this->assertNotEquals(null, $empresa);
-        $this->refreshDatabase();
+        $this->assertNotEquals(null, $empresa);        
 
+    }
+    public function test_nao_consegue_adicionar_dados_iguais(){
+        $dados = [
+            'cnpj' => '45678901234567',
+            'cpf_admin' => null,           
+            'email' => 'php@gmail.com',
+            'password' => '12345678', 
+            'password_confirmation' => '12345678',
+        ];
+        $empresa = Empresa::factory()->state($dados)->make();
+        $this->post('/empresa/register',[
+            'cnpj' => '45678901234567',
+            'razao' => $empresa->razao,
+            'nomeFantasia' => $empresa->nomeFantasia,
+            'cpf_admin' => null,
+            'telefone' => $empresa->telefone,            
+            'email' => 'php@gmail.com',
+            'password' => '12345678', 
+            'password_confirmation' => '12345678',
+        ])->assertSessionHasErrors([
+            'cnpj'=>'Este CNPJ já está cadastrado no nosso sistema.',
+            'email'=>'Esse email já está cadastrado no sistema.',
+        ]);
+        $this->refreshDatabase();
     }
 }
