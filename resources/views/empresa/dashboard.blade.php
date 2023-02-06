@@ -38,10 +38,14 @@
                             <th>CPF  </th>                            
                             <th>Email </th>                                                                                                                                     
                         </tr>                                                                                          
-                            <tr>                            
-                                <td>{{$admin->name}}</td>
-                                <td>{{$admin->cpf}}</td>                                
-                                <td>{{$admin->email}}</td>                                                                                     
+                            <tr>  
+                                @if (auth()->guard('empresa')->user()->cpf_admin != null)
+                                    <td>{{$admin['name']}}</td>
+                                    <td>{{$admin->cpf}}</td>                                
+                                    <td>{{$admin->email}}</td> 
+                                               
+                                @endif                                    
+                                                                                                                    
                             </tr>                                                                                                                                                                       
                     </table>
                     

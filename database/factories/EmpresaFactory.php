@@ -48,7 +48,7 @@ class EmpresaFactory extends Factory
     {
         return [
             'cnpj' => $this->faker->unique()->cnpj(false),
-            'cpf_admin' => null,
+            'cpf_admin' => $this->faker->unique()->cpf(false),
             'saldo_empresa' => 0,
             'razao' => $this->faker->company,
             'nomeFantasia' => $this->faker->word,

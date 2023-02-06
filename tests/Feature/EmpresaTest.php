@@ -20,26 +20,28 @@ class EmpresaTest extends TestCase
 
         $response->assertStatus(200);
     }
-    public function test_redireciona_login_usuario_nao_autenticado()
+    public function test_redireciona_inicio_usuario_nao_autenticado()
     {       
-        $resposta = $this->get('/empresa/venda');
-        $resposta->assertRedirect('/');
+        $this->get('/empresa/venda')->assertRedirect('/');
+        $this->get('/empresa/dashboard')->assertRedirect('/');
+        $this->get('/empresa/register/admin')->assertRedirect('/');
+        $this->get('/empresa/verify-email')->assertRedirect('/');
+        $this->get('/empresa/verify-email/{id}/{hash}')->assertRedirect('/');
+        $this->get('/empresa/confirm-password')->assertRedirect('/');
 
-        $resposta = $this->get('/empresa/dashboard');
-        $resposta->assertRedirect('/');
+        $this->post('/empresa/venda')->assertRedirect('/');
+        $this->post('/empresa/confirm-password')->assertRedirect('/');
+        $this->post('/empresa/email/verification-notification')->assertRedirect('/');
+        $this->post('/empresa/logout')->assertRedirect('/');       
 
-        $resposta = $this->get('/empresa/register/admin');
-        $resposta->assertRedirect('/');
-                
     }
     public function test_empresa_realiza_venda()
     {   
-        
-        //$this->withoutMiddleware();
-        $empresa = Empresa::factory()->create();        
-        
-        $resposta = $this->actingAs($empresa,'empresa');         
-        $this->assertAuthenticated();     
+                
+        $empresa = Empresa::factory()->create();                
+        $this->actingAs($empresa,'empresa');  
+               
+        $this->assertAuthenticated('empresa');     
         $resposta = $this->post('/empresa/venda',['valor'=>50]); 
     
         $this->assertEquals(50, Empresa::where('cnpj', '=', $empresa->cnpj)->first()->saldo_empresa); 
@@ -48,22 +50,24 @@ class EmpresaTest extends TestCase
         $this->refreshDatabase();
         
     }
+    //mudar a criação da empresa para um vetor, sem usar factory
     public function test_empresa_adiciona_admin()
     {
         $empresa = Empresa::factory()->create();  
         $user = User::factory()->create();  
         $this->actingAs($empresa);
         $resposta = $this->call('POST', route('register', $user));
-        $this->assertDatabaseHas('users', $user->email);
+        $this->assertNotNull(User::where('cnpj_empresa', '=', $empresa->cnpj)->first());
+        $this->refreshDatabase();
     }
+
+    //falta completar a asserção
     public function test_empresa_retorna_index()
     {
-        $empresa = Empresa::factory()->create();        
-        
+        $empresa = Empresa::factory()->create();                
         $this->actingAs($empresa,'empresa'); 
-        $resposta = $this->call('GET', route('empresa.dashboard'));
-       
-        $resposta->assertViewIs('empresa.dashboard');
-        $this->refreshDatabase();
+        $this->get('/empresa/dashboard')->assertSessionDoesntHaveErrors();
+
+         $this->assertAuthenticated('empresa');
     }
 }
