@@ -51,8 +51,7 @@
                             <td>{{$empresas->telefone}}</td>
                                                  
                         </tr>                                                                                                                                                                       
-                </table>
-                
+                </table>                
                 
             </div>
         </div>
@@ -74,21 +73,20 @@
                         <th>Verificada</th>                                                    
                     </tr>                                                                                          
                         
-                            @if (!empty($contas))
-                                @foreach ($contas as $conta)
-                                <tr>  
-                                    <td>{{$conta->proprietario}} <br></td>
-                                    <td>{{$conta->num_conta}}</td> 
-                                    @if ($conta->verificada == 0)
-                                        <td>NÃO</td> 
-                                    @else
-                                        <td>SIM</td>  
-                                    @endif
-                                </tr>                                                    
-                                @endforeach                                                                           
-                            @endif                                    
-                                                                                                                
-                                                                                                                                                                                              
+                    @if (!empty($contas))
+                        @foreach ($contas as $conta)
+                        <tr>  
+                            <td>{{$conta->proprietario}} <br></td>
+                            <td>{{$conta->num_conta}}</td> 
+                            @if ($conta->verificada == 0)
+                                <td>NÃO</td> 
+                            @else
+                                <td>SIM</td>  
+                            @endif
+                        </tr>                                                    
+                        @endforeach                                                                           
+                    @endif                                    
+                                                                                                                                                                                                                                                                                                             
                 </table>
                                 
             </div>
