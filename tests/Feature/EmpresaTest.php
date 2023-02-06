@@ -13,13 +13,27 @@ use Tests\TestCase;
 class EmpresaTest extends TestCase
 {
     use RefreshDatabase;
-    
+    /**
+     * Teste simples para verificar se a tela de login pode ser renderizada 
+     * mesmo que você seja um visitante, para testar se os middlewares estão
+     * corretos.
+     *
+     * @return void
+     */
     public function test_janela_login_pode_ser_renderizada()
     {
         $response = $this->get('/empresa/login');
-
+        $this->assertGuest();
         $response->assertStatus(200);
     }
+    /**
+     * Teste para verificar se os middlewares estão funcionando corretamente, 
+     * redirecionando para a tela inicial do sistema, usuários que não tem a 
+     * devida permissão para acessar as rotas da empresa, que necessitam de 
+     * autenticação.
+     *
+     * @return void
+     */
     public function test_redireciona_inicio_usuario_nao_autenticado()
     {       
         $this->get('/empresa/venda')->assertRedirect('/');
@@ -35,6 +49,13 @@ class EmpresaTest extends TestCase
         $this->post('/empresa/logout')->assertRedirect('/');       
 
     }
+    /**
+     * Teste para verificar se a rota e o método de de adicionar venda estão 
+     * funcionando corretamente, uma vez que apenas empresas autenticadas podem 
+     * realizar essa operação.
+     *
+     * @return void
+     */
     public function test_empresa_realiza_venda()
     {   
                 
@@ -42,7 +63,7 @@ class EmpresaTest extends TestCase
         $this->actingAs($empresa,'empresa');  
                
         $this->assertAuthenticated('empresa');     
-        $resposta = $this->post('/empresa/venda',['valor'=>50]); 
+        $resposta = $this->post('/empresa/venda',['valor'=>50])->assertSessionDoesntHaveErrors(); 
     
         $this->assertEquals(50, Empresa::where('cnpj', '=', $empresa->cnpj)->first()->saldo_empresa); 
         $resposta->assertRedirect(RouteServiceProvider::EMPRESA_HOME);       
@@ -50,7 +71,11 @@ class EmpresaTest extends TestCase
         $this->refreshDatabase();
         
     }
-    
+    /**
+     * Teste para verificar se as rotas e o método de adicionar admin estão corretos.
+     *
+     * @return void
+     */
     public function test_empresa_adiciona_admin()
     {
         $dados = [
@@ -81,8 +106,12 @@ class EmpresaTest extends TestCase
         $this->assertNotNull(User::where('cnpj_empresa', '=', $empresa->cnpj)->first());
         $this->refreshDatabase();
     }
-
-    
+    /**
+     * Teste para verificar se a rota que retorna a empresa para o index da 
+     * empresa está correta e se está retornando sem erros.
+     *
+     * @return void
+     */
     public function test_empresa_retorna_index()
     {
         $empresa = Empresa::factory()->create();                

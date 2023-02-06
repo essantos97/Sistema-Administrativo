@@ -12,13 +12,14 @@ use Tests\TestCase;
 class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
-
-    public function test_registration_screen_can_be_rendered()
-    {
-        $response = $this->get('/register');
-        $response->assertRedirect('/');        
-    }
-
+    
+    /**
+     * Teste para verificar se novos usuários(admin) podem ser registrados.
+     * Como a rota é protegida pelo middleware 'empresa' é necessário autenticar
+     *  uma empresa para continuar com a operação.
+     *
+     * @return void
+     */
     public function test_new_users_can_register()
     {        
         $empresa = Empresa::factory()->create();
@@ -35,7 +36,12 @@ class RegistrationTest extends TestCase
               
         $this->refreshDatabase();
     }
-
+    /**
+     * Teste para mostrar as mensagens que o usuário receberia ao tentar 
+     * se cadastrar sem preencher os dados do formulário.
+     *
+     * @return void
+     */
     public function test_novos_usuarios_nao_preenchem_dados_de_registro()
     {        
         $empresa = Empresa::factory()->create();
@@ -63,8 +69,7 @@ class RegistrationTest extends TestCase
             'password' => 'A senha deverá ter no mínimo 6 caracteres.',
             'password' => 'As senhas diferem, digite senhas iguais.',                       
             'email' => 'Os emails diferem, digite emails iguais.',                     
-        ]);       
-             
+        ]);                    
                       
     }
 

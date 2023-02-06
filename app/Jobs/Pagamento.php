@@ -58,7 +58,7 @@ class Pagamento implements ShouldQueue
         } catch (\Exception $e) {
             
             $mensagem=[
-                'info'=> 'O pagamento para a conta: '. $this->request['num_conta'] .' no valor de R$'.$this->request['valor']. ', não pôde ser concluido, o valor já foi devolvido a conta da empresa!',            
+                'info'=> 'O pagamento para a conta: '. $this->request['num_conta'] .' no valor de R$'.$this->request['valor']. ', não pôde ser concluido!',            
              ]; 
             
             EnviaEmail::dispatch($this->request+$mensagem); 

@@ -11,7 +11,8 @@ class EmpresaRegistroTest extends TestCase
 {
     use RefreshDatabase;
     /**
-     * A basic feature test example.
+     * Teste para verificar se é possível adicionar uma empresa pela rota, 
+     * testando assim tanto a rota quanto o teste de adição de empresas.
      *
      * @return void
      */
@@ -34,6 +35,13 @@ class EmpresaRegistroTest extends TestCase
         $this->assertNotEquals(null, $empresa);        
 
     }
+    /**
+     * Teste para verificar os erros que são retornados para o usuário ao 
+     * tentar adicionar dados replicados, como e-mail e cnpj, uma vez que 
+     * esses campos devem ser únicos no sistema.
+     *
+     * @return void
+     */
     public function test_nao_consegue_adicionar_dados_iguais(){
         $dados = [
             'cnpj' => '45678901234567',

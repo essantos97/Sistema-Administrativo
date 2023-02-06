@@ -15,7 +15,13 @@ use Tests\TestCase;
 class AdminTest extends TestCase
 {
     use RefreshDatabase;
-    
+    /**
+    * Teste para verificar se os middlewares estão funcionando corretamente, 
+     * redirecionando para a tela inicial do sistema, usuários que não tem a 
+     * devida permissão para acessar as rotas do admin, rotas que necessitam de 
+     * autenticação.
+     * @return void
+     */
     public function test_redireciona_login_usuario_nao_autenticado_acessando_rotas_admin()
     {
         $this->get('/confirm-password')->assertRedirect('/');
@@ -35,7 +41,12 @@ class AdminTest extends TestCase
         $this->post('/admin/adicionar/conta')->assertRedirect('/');
         $this->post('/admin/verificar/conta')->assertRedirect('/');        
     }
-
+    /**
+     * Método para testar a rota e também o método de adição de conta, que vai 
+     * ser usada pelo admin posteriormente para realizar uma solicitação de saque.
+     *
+     * @return void
+     */
     public function test_admin_adiciona_conta()
     {                       
         $user = User::factory()->create();
@@ -50,7 +61,13 @@ class AdminTest extends TestCase
         $resposta->assertRedirect(RouteServiceProvider::HOME); 
         $this->refreshDatabase();         
     }
-
+    /**
+     * Método para testar a rota e também o método de adição de conta, mostrando
+     * os erros que o usuário vai receber ao não preencher os campo corretamente
+     * no momento da adição de conta.
+     *
+     * @return void
+     */
     public function test_admin_nao_preenche_campos_para_adicionar_conta(){
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -88,7 +105,12 @@ class AdminTest extends TestCase
         $this->refreshDatabase();
     
     }
-
+    /**
+     * Método para testar a rota e também o método de verificação de conta, que vai 
+     * ser usada pelo admin posteriormente para realizar uma solicitação de saque.
+     *
+     * @return void
+     */
     public function test_admin_verifica_conta()
     {
         $user = User::factory()->create();
@@ -104,6 +126,13 @@ class AdminTest extends TestCase
         $this->assertEquals(true, Conta::where('num_conta', '=', 18796592)->first()->verificada);   
         $this->post('/logout');
     }
+    /**
+     * Método para testar a rota e também o método de verificação de conta, mostrando
+     * os erros que o usuário vai receber ao não preencher os campo corretamente
+     * no momento de validar uma conta.
+     *
+     * @return void
+     */
     public function test_admin_nao_preenche_dados_para_verificar_conta()
     {
         $user = User::factory()->create();
@@ -128,7 +157,14 @@ class AdminTest extends TestCase
 
         $this->refreshDatabase();
     }
-    
+    /**
+     * Método que testa a rota e também a solicitação de saque por parte do administrador, 
+     * o método de saque cria um job pagamento que será realizado ao disparar o comando 
+     * queue:work e após a sua conclusão envia para o cliente o resultado da solicitação 
+     * de saque para a empresa.
+     *
+     * @return void
+     */
     public function test_admin_realiza_saque()
     {
         
@@ -145,7 +181,12 @@ class AdminTest extends TestCase
         $this->post('/admin/saque', ['num_conta'=>18796592, 'valor' => 10])->assertRedirect(RouteServiceProvider::HOME);
         
     }
-
+    /**
+     * Método que mostra os erros que o usuário receberá ao não preencher corretamente 
+     * os campos no momento da solicitação de saque.
+     *
+     * @return void
+     */
     public function test_erros_na_solicitacao_de_saque(){
         $empresa = Empresa::factory()->state(['saldo_empresa'=>50])->create();          
         $user = User::where('cnpj_empresa', '=', $empresa->cnpj)->first();
