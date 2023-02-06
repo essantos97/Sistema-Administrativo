@@ -26,10 +26,11 @@ class ContaFactory extends Factory
     public function definition()
     {
         return [
-            'num_conta'=> $this->faker->unique()->rg(false),
-            'proprietario'=> $this->faker->name,
-            'verificada'=> $this->faker->boolean(),
-            'saldo'=>0,
+            'num_conta' => $this->faker->unique()->rg(false),
+            'proprietario' => $this->faker->name,
+            'verificada' => $this->faker->boolean(),
+            'saldo' => 0,
+            'cpf_admin' => $this->faker->cpf(false),
         ];
     }
 }

@@ -24,8 +24,9 @@ class AdminController extends Controller
 
     public function index(){
                        
-        $empresas  = Empresa::where('cpf_admin','=', Auth::guard('web')->user()->cpf)->first();                       
-        return view('dashboard', compact('empresas'));
+        $empresas  = Empresa::where('cpf_admin','=', Auth::guard('web')->user()->cpf)->first();  
+        $contas  = Conta::where('cpf_admin','=', Auth::guard('web')->user()->cpf)->get();                      
+        return view('dashboard', compact('empresas', 'contas'));
     }
 
    /**
@@ -102,6 +103,7 @@ class AdminController extends Controller
           'num_conta'=> $request->num_conta,
           'proprietario'=> $request->proprietario,
           'verificada'=> false,
+          'cpf_admin' => Auth::guard('web')->user()->cpf,
           'saldo'=>0,
         ]);
         

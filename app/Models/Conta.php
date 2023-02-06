@@ -20,6 +20,7 @@ class Conta extends Model
         'num_conta',
         'proprietario',
         'saldo',    
-        'verificada',    
+        'verificada',   
+        'cpf_admin', 
     ];  
 }

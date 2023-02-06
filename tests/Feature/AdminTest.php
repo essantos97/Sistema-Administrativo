@@ -161,7 +161,10 @@ class AdminTest extends TestCase
             'valor'=>'O valor do saque é obrigatório.',
         ]);
         
-        $this->post('/admin/saque',['num_conta' => 'kj15h2g', 'valor'=>'drfs'])->assertSessionHasErrors([            
+        $this->post('/admin/saque',[
+            'num_conta' => 'kj15h2g', 
+            'valor'=>'drfs'
+        ])->assertSessionHasErrors([            
             'num_conta'=>'O número da conta é totalmente numérico.',
             'valor'=>'O valor deve ser numérico.', 
         ]); 

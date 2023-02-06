@@ -16,6 +16,7 @@ class CreateContasTable extends Migration
         Schema::create('contas', function (Blueprint $table) {
             $table->integer('num_conta')->unsigned()->unique();
             $table->string('proprietario');
+            $table->string('cpf_admin');
             $table->double('saldo');            
             $table->boolean('verificada');
             $table->timestamps();
